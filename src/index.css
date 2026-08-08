@@ -1,0 +1,110 @@
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: #f5f0e8;
+    color: #1a3d2b;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #ede7d8;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3a7a5c;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #234d38;
+  }
+
+  /* Focus visible rings */
+  *:focus-visible {
+    outline: 2px solid #3a7a5c;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    line-height: 1.25;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-forest-700 hover:bg-forest-600 text-cream font-body font-medium px-6 py-3 rounded-lg transition-all duration-200 ease-in-out shadow-card hover:shadow-card-hover hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-forest-400 focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 border-2 border-forest-700 text-forest-700 hover:bg-forest-700 hover:text-cream font-body font-medium px-6 py-3 rounded-lg transition-all duration-200 ease-in-out;
+  }
+
+  .section-heading {
+    @apply font-display text-3xl md:text-4xl font-semibold text-forest-800 leading-tight;
+  }
+
+  .section-subheading {
+    @apply font-display text-xl md:text-2xl font-semibold text-forest-700;
+  }
+
+  .leaf-divider {
+    @apply flex items-center gap-3 my-4;
+  }
+
+  .leaf-divider::before,
+  .leaf-divider::after {
+    content: '';
+    @apply flex-1 h-px bg-forest-200;
+  }
+
+  .card-base {
+    @apply bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 ease-in-out hover:-translate-y-1;
+  }
+
+  .animate-on-scroll {
+    @apply opacity-0;
+  }
+
+  .animate-on-scroll.is-visible {
+    @apply animate-fade-up;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grain-overlay {
+    position: relative;
+  }
+
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
