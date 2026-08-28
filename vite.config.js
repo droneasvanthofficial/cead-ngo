@@ -7,6 +7,9 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: true,
+    watch: {
+      ignored: ['**/*.crdownload', '**/ChatGPT*'],
+    },
   },
   preview: {
     host: true,

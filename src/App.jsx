@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import DirectorMessagePage from './pages/DirectorMessagePage';
 import AdvisoryCommitteePage from './pages/AdvisoryCommitteePage';
+import StaffDetailsPage from './pages/StaffDetailsPage';
+import BoardTrusteesPage from './pages/BoardTrusteesPage';
 import FocusAreasPage from './pages/FocusAreasPage';
 import ConsultancyPage from './pages/ConsultancyPage';
 import ProductsPage from './pages/ProductsPage';
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/director-message" element={<DirectorMessagePage />} />
           <Route path="/advisory-committee" element={<AdvisoryCommitteePage />} />
+          <Route path="/staff-details" element={<StaffDetailsPage />} />
+          <Route path="/board-trustees" element={<BoardTrusteesPage />} />
           <Route path="/focus-areas" element={<FocusAreasPage />} />
           <Route path="/consultancy" element={<ConsultancyPage />} />
           <Route path="/products" element={<ProductsPage />} />

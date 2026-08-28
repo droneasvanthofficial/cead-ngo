@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import logoImg from '../assets/title.png';
+import logoImg from '../assets/cead-logo.png';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -12,6 +12,8 @@ const navLinks = [
       { label: "Director's Message", href: '/director-message' },
       { label: 'Vision & Mission', href: '/about' },
       { label: 'Advisory Committee', href: '/advisory-committee' },
+      { label: 'Staff Details', href: '/staff-details' },
+      { label: 'Board of Trustees', href: '/board-trustees' },
     ],
   },
   {
@@ -23,6 +25,7 @@ const navLinks = [
       { label: 'Women Empowerment', href: '/focus-areas' },
       { label: 'Agro Tourism', href: '/focus-areas' },
       { label: 'Livelihood', href: '/focus-areas' },
+      { label: 'Non Farming', href: '/focus-areas' },
     ],
   },
   { label: 'Consultancy Centre', href: '/consultancy' },
@@ -34,6 +37,11 @@ const navLinks = [
       { label: 'Vermi Wash', href: '/products' },
       { label: 'Organic Greens', href: '/products' },
       { label: 'Enriched Pot Mixture', href: '/products' },
+      { label: 'Mushroom', href: '/products' },
+      { label: 'Terrace Garden', href: '/products' },
+      { label: 'Nursery Garden', href: '/products' },
+      { label: 'Drip Irrigation', href: '/products' },
+      { label: 'Azolla', href: '/products' },
     ],
   },
   {
@@ -60,6 +68,28 @@ const navLinks = [
       { label: 'News Letter', href: '/media' },
       { label: 'Annual Report', href: '/annual-report' },
       { label: 'Current Event', href: '/media' },
+      { label: 'Success Stories', href: '/media' },
+      { label: 'Completed Events', href: '/media' },
+    ],
+  },
+  {
+    label: 'Financial Reports',
+    href: '/financial-reports',
+    children: [
+      { label: 'Darpan', href: '/financial-reports' },
+      { label: '18G', href: '/financial-reports' },
+      { label: '12A', href: '/financial-reports' },
+      { label: 'Form VII', href: '/financial-reports' },
+      { label: 'Fund Receipts', href: '/financial-reports' },
+    ],
+  },
+  {
+    label: 'Join Us',
+    href: '/join-us',
+    children: [
+      { label: 'Volunteers', href: '/join-us' },
+      { label: 'Social Developers', href: '/join-us' },
+      { label: 'Donors', href: '/join-us' },
     ],
   },
   { label: 'Contact Us', href: '/contact' },
@@ -68,9 +98,8 @@ const navLinks = [
 function DropdownMenu({ items, isOpen, onClose }) {
   return (
     <div
-      className={`absolute top-full left-0 mt-0.5 w-56 bg-[#1f4215] rounded-b-xl shadow-xl border border-forest-600/80 overflow-hidden transition-all duration-200 z-50 ${
-        isOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
-      }`}
+      className={`absolute top-full left-0 mt-0.5 w-56 bg-[#1f4215] rounded-b-xl shadow-xl border border-forest-600/80 overflow-hidden transition-all duration-200 z-50 ${isOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
+        }`}
       role="menu"
     >
       {items.map((item) => (
@@ -143,12 +172,12 @@ export default function Navbar() {
       </div>
 
       {/* ── 2. Full-Width Logo Banner Row ── */}
-      <div className="bg-white py-3 px-4 border-b border-forest-100 flex items-center justify-center">
-        <Link to="/" className="block max-w-5xl w-full text-center">
+      <div className="w-full bg-[#e8f5e9] overflow-hidden border-b border-forest-800">
+        <Link to="/" className="block w-full max-w-[1920px] mx-auto" style={{ aspectRatio: '1920 / 200' }}>
           <img
             src={logoImg}
             alt="CEAD — Centre for Environment and Agricultural Development"
-            className="h-16 sm:h-20 md:h-24 mx-auto w-auto object-contain"
+            className="w-full h-full block object-contain sm:object-cover"
           />
         </Link>
       </div>
@@ -156,7 +185,7 @@ export default function Navbar() {
       {/* ── 3. Green Navigation Bar ── */}
       <nav className="bg-[#1a380f] text-cream border-t border-forest-800" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 flex items-center justify-between">
-          
+
           {/* Desktop Navigation Links with dividers */}
           <ul className="hidden lg:flex items-center w-full justify-center divide-x divide-white/20 border-x border-white/20" role="list">
             {navLinks.map((link) => (
@@ -213,9 +242,8 @@ export default function Navbar() {
         {/* Mobile menu dropdown */}
         <div
           id="mobile-menu"
-          className={`lg:hidden bg-[#183410] border-t border-forest-800 transition-all duration-300 overflow-hidden ${
-            mobileOpen ? 'max-h-screen opacity-100 py-4' : 'max-h-0 opacity-0 py-0'
-          }`}
+          className={`lg:hidden bg-[#183410] border-t border-forest-800 transition-all duration-300 overflow-hidden ${mobileOpen ? 'max-h-screen opacity-100 py-4' : 'max-h-0 opacity-0 py-0'
+            }`}
         >
           <ul className="px-4 space-y-1" role="list">
             {navLinks.map((link) => (

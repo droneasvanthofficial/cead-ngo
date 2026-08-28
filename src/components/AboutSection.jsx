@@ -192,7 +192,7 @@ export default function AboutSection() {
               <h3 className="section-heading">Vision &amp; Mission</h3>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
               {/* Vision */}
               <div className="bg-forest-800 rounded-3xl p-8 text-cream relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-gold/10 rounded-full -translate-y-1/2 translate-x-1/4" aria-hidden="true" />
@@ -230,6 +230,48 @@ export default function AboutSection() {
                     promotion of skill development, education, health care, and initiation of environmentally
                     sustainable and economically viable activities.
                   </p>
+                </div>
+              </div>
+
+              {/* Core Values */}
+              <div className="bg-gradient-to-br from-forest-800 to-leaf-dark rounded-3xl p-8 text-cream relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gold/5 rounded-full -translate-y-1/2 translate-x-1/4" aria-hidden="true" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" aria-hidden="true" />
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 rounded-xl bg-gold/20 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </div>
+                    <h4 className="font-display text-xl font-semibold text-gold">Core Values</h4>
+                  </div>
+                  <ul className="space-y-2 font-body text-cream/85 leading-relaxed">
+                    <li className="flex items-start gap-2">
+                      <span className="text-gold mt-1">•</span>
+                      <span>Integrity</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-gold mt-1">•</span>
+                      <span>Empowerment</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-gold mt-1">•</span>
+                      <span>Sustainability</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-gold mt-1">•</span>
+                      <span>Inclusivity</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-gold mt-1">•</span>
+                      <span>Accountability</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-gold mt-1">•</span>
+                      <span>Collaboration</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
