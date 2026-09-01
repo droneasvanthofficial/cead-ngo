@@ -1,10 +1,16 @@
-import PageWrapper from '../components/PageWrapper';
+import PageHeader from '../components/ui/PageHeader';
 import BoardTrustees from '../components/BoardTrustees';
 
 export default function BoardTrusteesPage() {
   return (
-    <PageWrapper crumbs={[{ label: 'About Us', href: '/about' }, { label: 'Board of Trustees', href: '/board-trustees' }]}>
+    <>
+      <PageHeader
+        eyebrow="About us"
+        title="Executive Committee"
+        description="The executive committee responsible for CEAD's governance, finances and programme accountability."
+        crumbs={[{ label: 'About', href: '/about' }, { label: 'Executive Committee' }]}
+      />
       <BoardTrustees />
-    </PageWrapper>
+    </>
   );
 }

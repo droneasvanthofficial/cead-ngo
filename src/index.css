@@ -1,104 +1,186 @@
 @import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
 @import '@fontsource/playfair-display/600.css';
 @import '@fontsource/playfair-display/700.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
   html, body {
-    overflow-x: hidden;
+    overflow-x: clip;
     margin: 0;
     padding: 0;
     width: 100%;
   }
 
-  /* Custom sleek scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #2d5a27;
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #1a380f;
-  }
-
-  /* Focus visible rings */
-  *:focus-visible {
-    outline: 2px solid #3a7a5c;
-    outline-offset: 3px;
-    border-radius: 4px;
+  body {
+    @apply bg-canvas font-body text-body text-soil-700 antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
-    line-height: 1.25;
-  }
-}
-
-@layer components {
-  .btn-primary {
-    @apply inline-flex items-center gap-2 bg-forest-700 hover:bg-forest-600 text-cream font-body font-medium px-6 py-3 rounded-lg transition-all duration-200 ease-in-out shadow-card hover:shadow-card-hover hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-forest-400 focus-visible:ring-offset-2;
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center gap-2 border-2 border-forest-700 text-forest-700 hover:bg-forest-700 hover:text-cream font-body font-medium px-6 py-3 rounded-lg transition-all duration-200 ease-in-out;
-  }
-
-  .section-heading {
-    @apply font-display text-3xl md:text-4xl font-semibold text-forest-800 leading-tight;
-  }
-
-  .section-subheading {
-    @apply font-display text-xl md:text-2xl font-semibold text-forest-700;
-  }
-
-  .leaf-divider {
-    @apply flex items-center gap-3 my-4;
-  }
-
-  .leaf-divider::before,
-  .leaf-divider::after {
-    content: '';
-    @apply flex-1 h-px bg-forest-200;
-  }
-
-  .card-base {
-    @apply bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 ease-in-out hover:-translate-y-1;
-  }
-
-  .animate-on-scroll {
-    @apply opacity-0;
-  }
-
-  .animate-on-scroll.is-visible {
-    @apply animate-fade-up;
-  }
-}
-
-@layer utilities {
-  .text-balance {
+    @apply font-display text-forest-900;
     text-wrap: balance;
   }
 
-  .grain-overlay {
-    position: relative;
+  /* A single, consistent focus treatment across the whole site. */
+  :focus-visible {
+    outline: 2px solid theme('colors.forest.600');
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+  :focus:not(:focus-visible) { outline: none; }
+
+  ::selection {
+    background: theme('colors.forest.200');
+    color: theme('colors.forest.900');
   }
 
-  .grain-overlay::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    pointer-events: none;
-    border-radius: inherit;
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: theme('colors.cream.dark'); }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.forest.300');
+    border-radius: 99px;
+    border: 3px solid theme('colors.cream.dark');
+  }
+  ::-webkit-scrollbar-thumb:hover { background: theme('colors.forest.500'); }
+
+  /* Images never stretch. */
+  img, svg, video { max-width: 100%; height: auto; }
+}
+
+@layer components {
+  /* ── Layout ──────────────────────────────────────────────────────────── */
+  .container-page {
+    @apply mx-auto w-full max-w-container px-gutter;
+  }
+
+  /* The header carries a wide lockup plus nine links, so it runs closer to the
+     viewport edges than the page container allows. */
+  .container-nav {
+    @apply mx-auto w-full max-w-[112rem] px-4 sm:px-5 lg:px-6;
+  }
+
+  /* ── Buttons — one height scale, one radius, consistent states ───────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-body text-small font-semibold
+           px-6 h-12 whitespace-nowrap transition-all duration-200 ease-smooth
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-sm { @apply h-10 px-4 text-caption; }
+
+  .btn-primary {
+    @apply btn bg-forest-700 text-cream shadow-sm
+           hover:bg-forest-600 hover:shadow-card active:bg-forest-800;
+  }
+  .btn-secondary {
+    @apply btn border border-forest-700/30 bg-transparent text-forest-800
+           hover:border-forest-700 hover:bg-forest-50 active:bg-forest-100;
+  }
+  .btn-on-dark {
+    @apply btn border border-cream/30 bg-transparent text-cream
+           hover:border-cream/70 hover:bg-cream/10;
+  }
+  .btn-accent {
+    @apply btn bg-gold text-forest-950 shadow-sm hover:bg-gold-light active:bg-gold-dark;
+  }
+
+  /* Text link with a travelling arrow. */
+  .link-arrow {
+    @apply inline-flex items-center gap-2 font-body text-small font-semibold
+           text-forest-700 transition-colors duration-200 hover:text-forest-900;
+  }
+  .link-arrow svg {
+    @apply transition-transform duration-200 ease-smooth;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .link-arrow:hover svg,
+    .link-arrow:focus-visible svg { transform: translateX(4px); }
+  }
+
+  /* Underline-on-hover inline link. */
+  .link-underline {
+    @apply relative text-forest-700 transition-colors hover:text-forest-900
+           after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left
+           after:scale-x-0 after:bg-current after:transition-transform after:duration-300
+           after:ease-smooth hover:after:scale-x-100;
+  }
+
+  /* ── Typography roles ────────────────────────────────────────────────── */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-body text-eyebrow font-semibold
+           uppercase tracking-[0.16em] text-forest-600;
+  }
+  .eyebrow-on-dark { @apply eyebrow text-gold-light; }
+
+  .section-heading   { @apply font-display text-h2 font-semibold text-forest-900; }
+  .section-subheading{ @apply font-display text-h3 font-semibold text-forest-800; }
+  .lead              { @apply font-body text-lead text-soil-600; }
+
+  /* Long-form article body used by message/profile pages. */
+  .prose-cead {
+    @apply space-y-5 font-body text-body-lg leading-relaxed text-soil-700;
+  }
+  .prose-cead strong { @apply font-semibold text-forest-800; }
+
+  /* ── Surfaces ────────────────────────────────────────────────────────── */
+  .card-base {
+    @apply rounded-xl border border-line bg-surface shadow-sm
+           transition-[box-shadow,transform,border-color] duration-300 ease-smooth;
+  }
+  .card-interactive {
+    @apply card-base hover:-translate-y-0.5 hover:border-forest-200 hover:shadow-card-hover;
+  }
+
+  /* A 1px rule that reads as a deliberate detail rather than a border. */
+  .hairline { @apply h-px w-full bg-line; }
+
+  .leaf-divider { @apply my-4 flex items-center gap-3; }
+  .leaf-divider::before,
+  .leaf-divider::after { content: ''; @apply h-px flex-1 bg-line; }
+
+  /* Form controls — one shared look. */
+  .field-label {
+    @apply mb-1.5 block font-body text-caption font-semibold text-soil-700;
+  }
+  .field-input {
+    @apply w-full rounded-lg border border-line bg-surface px-4 py-3 font-body text-small
+           text-forest-900 placeholder:text-soil-400 transition-colors duration-200
+           hover:border-soil-300 focus:border-forest-500 focus:outline-none
+           focus:ring-2 focus:ring-forest-500/20;
+  }
+  .field-error { @apply mt-1.5 flex items-center gap-1.5 font-body text-caption text-terracotta-dark; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Legacy scroll-reveal hook kept for any markup still using it. */
+  .animate-on-scroll { @apply opacity-0; }
+  .animate-on-scroll.is-visible { @apply animate-fade-up; }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   Framer Motion is told separately via useReducedMotion; this covers CSS
+   transitions, keyframes and smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

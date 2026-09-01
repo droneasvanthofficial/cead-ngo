@@ -1,10 +1,16 @@
-import PageWrapper from '../components/PageWrapper';
+import PageHeader from '../components/ui/PageHeader';
 import Partnerships from '../components/Partnerships';
 
 export default function PartnershipsPage() {
   return (
-    <PageWrapper crumbs={[{ label: 'Partnerships', href: '/partnerships' }]}>
+    <>
+      <PageHeader
+        eyebrow="Our network"
+        title="Partnerships"
+        description="Government departments, universities, foundations and NGOs that CEAD delivers programmes with."
+        crumbs={[{ label: 'Partners' }]}
+      />
       <Partnerships />
-    </PageWrapper>
+    </>
   );
 }

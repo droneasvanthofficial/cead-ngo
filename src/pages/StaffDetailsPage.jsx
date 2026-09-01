@@ -1,10 +1,16 @@
-import PageWrapper from '../components/PageWrapper';
+import PageHeader from '../components/ui/PageHeader';
 import StaffDetails from '../components/StaffDetails';
 
 export default function StaffDetailsPage() {
   return (
-    <PageWrapper crumbs={[{ label: 'About Us', href: '/about' }, { label: 'Staff Details', href: '/staff-details' }]}>
+    <>
+      <PageHeader
+        eyebrow="About us"
+        title="Staff Details"
+        description="The full-time team running CEAD's programmes, field operations and administration."
+        crumbs={[{ label: 'About', href: '/about' }, { label: 'Staff Details' }]}
+      />
       <StaffDetails />
-    </PageWrapper>
+    </>
   );
 }

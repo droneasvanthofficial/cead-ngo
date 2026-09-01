@@ -1,115 +1,215 @@
-import { useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useCallback, useEffect, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import Section from './ui/Section';
+import SectionHeader from './ui/SectionHeader';
+import { RevealGroup, RevealItem } from './ui/Reveal';
+import { EASE } from '../lib/motion';
 
-import r1 from '../assets/images/real_gallery_1.png';
-import r2 from '../assets/images/real_gallery_2.png';
-import r3 from '../assets/images/real_gallery_3.png';
-import r4 from '../assets/images/real_gallery_4.png';
-import r5 from '../assets/images/real_gallery_5.png';
-import r6 from '../assets/images/real_gallery_6.png';
-import r7 from '../assets/images/real_gallery_7.jpeg';
-import r8 from '../assets/images/real_gallery_8.png';
-import r9 from '../assets/images/real_gallery_9.png';
-import r10 from '../assets/images/real_gallery_10.png';
-import r11 from '../assets/images/real_gallery_11.png';
-import r12 from '../assets/images/real_gallery_12.png';
+import trainingHall from '../assets/images/real_gallery_5.jpg';
+import acabcBatch from '../assets/images/real_gallery_12.jpg';
+import acabcOpening from '../assets/images/real_gallery_10.jpg';
+import paddyHandling from '../assets/images/real_gallery_4.jpg';
+import compostDemo from '../assets/images/real_gallery_6.jpg';
+import fieldVisit from '../assets/images/real_gallery_8.jpg';
+import plantationPlot from '../assets/images/real_gallery_1.jpg';
 
+/**
+ * Photographs of CEAD's own work. Captions describe what is actually in each
+ * frame — press clippings live in the Media section instead, so this stays a
+ * record of fieldwork. `wide` items span two columns to give the grid rhythm.
+ */
 const galleryImages = [
-  { src: r1, alt: 'CEAD Training Session for Farmers & Women', caption: 'Farmer Training Session', span: 'md:col-span-1' },
-  { src: r2, alt: 'Mahila Kisan Skill Development Workshop', caption: 'Mahila Kisan Training', span: 'md:col-span-2' },
-  { src: r3, alt: 'Soil Health & Testing Demonstration', caption: 'Soil Health & Testing', span: 'md:col-span-2' },
-  { src: r4, alt: 'Vermicomposting Unit Demonstration', caption: 'Vermi Compost Demonstration', span: 'md:col-span-1' },
-  { src: r5, alt: 'Valedictory Function & Certificate Distribution', caption: 'Valedictory Celebrations', span: 'md:col-span-1' },
-  { src: r6, alt: 'Field Visit & Organic Farming Inspection', caption: 'Field Inspections', span: 'md:col-span-2' },
-  { src: r7, alt: 'Self Help Group Empowering Rural Women', caption: 'Women SHG Meeting', span: 'md:col-span-2' },
-  { src: r8, alt: 'CEAD Officers & Trainees Group Photo', caption: 'Trainees & Faculty', span: 'md:col-span-1' },
-  { src: r9, alt: 'Press & Media Coverage Event', caption: 'Media & News Event', span: 'md:col-span-1' },
-  { src: r10, alt: 'Awareness Campaign in Puducherry Village', caption: 'Awareness Campaign', span: 'md:col-span-2' },
-  { src: r11, alt: 'Distribution of Organic Kits & Seeds', caption: 'Organic Seed Distribution', span: 'md:col-span-1' },
-  { src: r12, alt: 'CEAD Livelihood Farm Activity', caption: 'Livelihood Farm', span: 'md:col-span-2' },
+  {
+    src: trainingHall,
+    caption: 'Women’s training session',
+    alt: 'A room of rural women attending a CEAD training session, with the centre’s banner on the wall behind the speaker',
+    wide: true,
+  },
+  {
+    src: acabcOpening,
+    caption: 'Agri Clinic training opening',
+    alt: 'A speaker addressing the opening of CEAD’s 45-day Agri Clinic and Agri Business Centres training programme',
+  },
+  {
+    src: paddyHandling,
+    caption: 'Harvest handling session',
+    alt: 'Women and students sorting and bagging harvested paddy at a CEAD training session',
+  },
+  {
+    src: compostDemo,
+    caption: 'Composting demonstration',
+    alt: 'Students gathered around an open composting bed during an outdoor CEAD demonstration',
+    wide: true,
+  },
+  {
+    src: fieldVisit,
+    caption: 'Field advisory visit',
+    alt: 'CEAD staff reviewing paperwork with a farmer at the edge of a flooded paddy field',
+  },
+  {
+    src: acabcBatch,
+    caption: 'Training batch',
+    alt: 'Group photograph of the trainees and staff of a CEAD Agri Clinic and Agri Business Centres batch',
+  },
+  {
+    src: plantationPlot,
+    caption: 'Plantation plot',
+    alt: 'A newly planted demonstration plot with labelled saplings laid out in marked rows',
+    wide: true,
+  },
 ];
 
-function GalleryItem({ image, index }) {
-  const [hovered, setHovered] = useState(false);
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+/** Full-screen viewer with keyboard paging. */
+function Lightbox({ index, onClose, onStep }) {
+  const reduced = useReducedMotion();
+  const open = index !== null;
+  const image = open ? galleryImages[index] : null;
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowRight') onStep(1);
+      if (e.key === 'ArrowLeft') onStep(-1);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open, onClose, onStep]);
 
   return (
-    <div
-      ref={ref}
-      className={`relative rounded-2xl overflow-hidden cursor-pointer group aspect-[4/3] ${image.span} transition-all duration-700 shadow-sm hover:shadow-card-hover ${
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-      }`}
-      style={{ transitionDelay: `${(index % 6) * 70}ms` }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      role="img"
-      aria-label={image.alt}
-    >
-      <img
-        src={image.src}
-        alt={image.alt}
-        className={`w-full h-full object-cover transition-transform duration-500 ease-out ${
-          hovered ? 'scale-105' : 'scale-100'
-        }`}
-        loading="lazy"
-      />
-      {/* Caption overlay */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-t from-forest-900/85 via-forest-900/30 to-transparent flex items-end p-4 transition-opacity duration-300 ${
-          hovered ? 'opacity-100' : 'opacity-0'
-        }`}
-        aria-hidden="true"
-      >
-        <span className="font-body font-semibold text-cream text-sm">
-          {image.alt}
-        </span>
-      </div>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Photo ${index + 1} of ${galleryImages.length}: ${image.caption}`}
+          className="fixed inset-0 z-[70] flex flex-col bg-forest-950/95 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6">
+            <p className="font-body text-small text-cream/70">
+              <span className="tabular-nums">{index + 1}</span> / {galleryImages.length}
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close photo viewer"
+              autoFocus
+              className="flex h-11 w-11 items-center justify-center rounded-lg text-cream/80 transition-colors hover:bg-cream/10 hover:text-cream"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
 
-      {/* Always-visible badge */}
-      <div className="absolute top-3 left-3">
-        <span className="bg-forest-900/90 text-gold-light border border-gold/30 font-body text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm shadow-sm">
-          {image.caption}
-        </span>
-      </div>
-    </div>
+          <div className="flex min-h-0 flex-1 items-center gap-2 px-2 sm:gap-4 sm:px-6">
+            <button
+              type="button"
+              onClick={() => onStep(-1)}
+              aria-label="Previous photo"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cream/25 text-cream/80 transition-colors hover:border-cream/60 hover:bg-cream/10"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                className="mx-auto max-h-full min-h-0 w-auto max-w-full flex-1 rounded-lg object-contain"
+                initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25, ease: EASE }}
+              />
+            </AnimatePresence>
+
+            <button
+              type="button"
+              onClick={() => onStep(1)}
+              aria-label="Next photo"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cream/25 text-cream/80 transition-colors hover:border-cream/60 hover:bg-cream/10"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          <p className="px-6 py-5 text-center font-body text-small text-cream/80">{image.alt}</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
 export default function Gallery() {
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const [active, setActive] = useState(null);
+
+  const step = useCallback((delta) => {
+    setActive((prev) => (prev === null ? prev : (prev + delta + galleryImages.length) % galleryImages.length));
+  }, []);
 
   return (
-    <section
-      id="gallery"
-      className="py-20 md:py-28 bg-gradient-to-b from-[#f7f2e8] via-[#eee5d4] to-[#f7f2e8] bg-grain-texture relative overflow-hidden"
-      aria-labelledby="gallery-heading"
-    >
-      {/* Ambient light blobs */}
-      <div className="absolute top-10 right-10 w-96 h-96 bg-gold/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-leaf/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+    <Section id="gallery" tone="warm" aria-labelledby="gallery-heading">
+      <SectionHeader
+        id="gallery-heading"
+        eyebrow="Fieldwork"
+        title="Photographs from the villages we work in"
+        lead="Training batches, self-help group sessions, farm demonstrations and advisory visits across Puducherry and Tamil Nadu."
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div
-          ref={ref}
-          className={`text-center mb-12 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-        >
-          <span className="inline-block bg-[#1a380f] text-gold-light text-xs font-body font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 border border-forest-700">
-            Fieldwork &amp; Impact
-          </span>
-          <h2 id="gallery-heading" className="section-heading text-forest-900">CEAD Photo Gallery</h2>
-          <p className="mt-3 text-soil-700 font-body max-w-xl mx-auto text-base">
-            Real photos from our training workshops, Mahila Kisan programs, field visits, and valedictory events across Puducherry and Tamil Nadu.
-          </p>
-        </div>
+      <RevealGroup
+        step={0.05}
+        className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {galleryImages.map((image, index) => (
+          <RevealItem key={image.caption} className={image.wide ? 'sm:col-span-2' : ''}>
+            <button
+              type="button"
+              onClick={() => setActive(index)}
+              className="group relative block h-full w-full overflow-hidden rounded-xl bg-forest-900 text-left"
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-smooth motion-safe:group-hover:scale-[1.04]"
+                loading="lazy"
+              />
+              <span
+                className="absolute inset-0 bg-gradient-to-t from-forest-950/85 via-forest-950/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-95"
+                aria-hidden="true"
+              />
+              <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+                <span className="font-body text-small font-semibold text-cream">{image.caption}</span>
+                <span
+                  className="flex h-8 w-8 shrink-0 translate-y-1 items-center justify-center rounded-full bg-cream/15 text-cream opacity-0 backdrop-blur-sm transition-all duration-300 ease-smooth group-hover:translate-y-0 group-hover:opacity-100"
+                  aria-hidden="true"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                  </svg>
+                </span>
+              </span>
+              <span className="sr-only">Open photo: {image.alt}</span>
+            </button>
+          </RevealItem>
+        ))}
+      </RevealGroup>
 
-        {/* Responsive grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {galleryImages.map((image, index) => (
-            <GalleryItem key={image.caption} image={image} index={index} />
-          ))}
-        </div>
-      </div>
-    </section>
+      <Lightbox index={active} onClose={() => setActive(null)} onStep={step} />
+    </Section>
   );
 }

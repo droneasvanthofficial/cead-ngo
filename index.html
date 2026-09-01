@@ -2,13 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO Meta Tags -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta name="theme-color" content="#143521" />
+
+    <!-- SEO -->
     <title>CEAD — Centre for Environment and Agricultural Development | Puducherry, India</title>
-    <meta name="description" content="CEAD is a registered NGO in Puducherry, India, dedicated to sustainable agriculture, environmental conservation, and rural community development since 2003. Empowering farmers and women through organic farming, vermicomposting, and livelihood programs." />
+    <meta name="description" content="CEAD is a registered NGO in Puducherry, India, dedicated to sustainable agriculture, environmental conservation, and rural community development since 2003. Empowering farmers and women through organic farming, vermicomposting, and livelihood programmes." />
     <meta name="keywords" content="CEAD, NGO Puducherry, organic farming India, vermicompost, rural development, women empowerment, sustainable agriculture, environment, Puducherry NGO" />
     <meta name="author" content="CEAD — Centre for Environment and Agricultural Development" />
     <meta name="robots" content="index, follow" />
@@ -25,9 +27,29 @@
     <meta name="twitter:title" content="CEAD — Centre for Environment and Agricultural Development" />
     <meta name="twitter:description" content="An NGO in Puducherry empowering farming communities through sustainable agriculture since 2003." />
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Organisation markup. Every value here is verifiable from CEAD's own
+      published material — do not add claims that are not.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Centre for Environment and Agricultural Development",
+        "alternateName": "CEAD",
+        "foundingDate": "2003",
+        "description": "A registered non-governmental, not-for-profit organisation in Puducherry, India, working on sustainable agriculture, environmental conservation, women empowerment and rural livelihoods.",
+        "email": "ceadngo@gmail.com",
+        "telephone": "+91-98943-13435",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "No. 42, Lenin Street, Kosspalaiyam",
+          "addressLocality": "Puducherry",
+          "postalCode": "605013",
+          "addressCountry": "IN"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

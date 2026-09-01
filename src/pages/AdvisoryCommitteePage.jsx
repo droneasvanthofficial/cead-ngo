@@ -1,10 +1,16 @@
-import PageWrapper from '../components/PageWrapper';
+import PageHeader from '../components/ui/PageHeader';
 import AdvisoryCommittee from '../components/AdvisoryCommittee';
 
 export default function AdvisoryCommitteePage() {
   return (
-    <PageWrapper crumbs={[{ label: 'About Us', href: '/about' }, { label: 'Advisory Committee', href: '/advisory-committee' }]}>
+    <>
+      <PageHeader
+        eyebrow="About us"
+        title="Advisory Committee"
+        description="The agricultural, environmental and health specialists who guide CEAD's technical work."
+        crumbs={[{ label: 'About', href: '/about' }, { label: 'Advisory Committee' }]}
+      />
       <AdvisoryCommittee />
-    </PageWrapper>
+    </>
   );
 }
