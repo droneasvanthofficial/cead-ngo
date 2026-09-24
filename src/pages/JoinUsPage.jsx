@@ -21,6 +21,7 @@ const routes = [
       'Short placements and semester field-work projects',
       'On- and off-farm training through CEAD\'s own Training & Development Unit',
     ],
+    cta: { label: 'Join as a volunteer', subject: 'Volunteering with CEAD' },
   },
   {
     slug: 'social-developers',
@@ -32,6 +33,7 @@ const routes = [
       'Joint research on organic production, soil health and rural livelihoods',
       'Programme delivery partnerships with government and NGO agencies',
     ],
+    cta: { label: 'Partner with CEAD', subject: 'Institutional partnership with CEAD' },
   },
   {
     slug: 'donors',
@@ -43,6 +45,7 @@ const routes = [
       'Individual supporters of specific training batches or village programmes',
       'Annual reports are published openly so you can see where work is going',
     ],
+    cta: { label: 'Support a programme', subject: 'Supporting CEAD’s programmes' },
   },
 ];
 
@@ -94,6 +97,18 @@ export default function JoinUsPage() {
                     </li>
                   ))}
                 </ul>
+
+                {/* One enquiry route per involvement type. Swap `href` for the
+                    form route once that exists — the label stays the same. */}
+                <Button
+                  href={`mailto:ceadngo@gmail.com?subject=${encodeURIComponent(route.cta.subject)}`}
+                  variant="secondary"
+                  size="sm"
+                  arrow
+                  className="mt-7"
+                >
+                  {route.cta.label}
+                </Button>
               </div>
             </RevealItem>
           ))}
